@@ -1,0 +1,87 @@
+.User {
+  width:30%;
+  margin:16px auto;
+  border:2px solid #eee;
+  box-shadow: 5px 5px 0px 0px #ccc;
+  padding: 16px;
+  text-align:center;
+}
+
+.textRevealContainer {
+    position: relative;
+    font-family: "Arial", cursive, sans-serif;
+
+    text-align: center; /*in case you write multiline text*/
+  }
+  
+  .textReveal {
+    overflow: hidden;
+    animation: textRevealAnim 2s ease 0.5s forwards;
+  }
+  
+  .textReveal > div {
+    transform: translateX(100%);
+    border-left: 2px solid red;
+    animation: textRevealAnim 2s ease 0.5s forwards,
+      borderOpacityAnim 2s ease 0.5s forwards;
+  }
+  
+  .textReveal > div > div {
+    transform: translateX(-100%);
+    animation: textRevealAnim 2s ease 0.5s forwards;
+  }
+  
+  @keyframes textRevealAnim {
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes borderOpacityAnim {
+    50% {
+      border-left: 2px solid red;
+    }
+    100% {
+      border-left: 2px solid transparent;
+    }
+  }
+  
+  .textReveal.x50 {
+    transform: translateX(-50%);
+  }
+  
+  .textReveal.x100 {
+    transform: translateX(-100%);
+  }
+  
+  .textReveal.zoom > div {
+    transform: translateX(100%) scale(0.5, 0.5);
+  }
+  
+  .textReveal.rotateY {
+    perspective: 100px; /*adjust according to your need*/
+  }
+  
+  .textReveal.rotateY > div {
+    transform: translateX(100%) rotateY(20deg);
+  }
+  
+  .textReveal.color > div > div {
+    background: linear-gradient(
+      to right,
+      red,
+      red 45%,
+      orange 45%,
+      orange 55%,
+      red 55%,
+      red
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 300%;
+    animation: textRevealAnim 2s ease 0.5s forwards,
+      bgShiftAnim 3s ease 0.5s forwards;
+  }
+  
+
+  
