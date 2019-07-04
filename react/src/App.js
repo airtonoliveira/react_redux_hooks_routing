@@ -8,7 +8,10 @@ class App extends Component {
     persons: [
       {name: "Airton Oliveira", age:2019-1991},
       {name: "Leandro Oliveira", age:2019-1994}
-    ]
+      ],
+      otherState: "some var",
+      showPersons:  false
+    
   }
 
   switchNameHandler = (newName) => {
@@ -31,6 +34,13 @@ class App extends Component {
     })
 }
 
+togglePersonsHandler = () => {
+  const doesShow = this.state.showPersons;
+  this.setState({
+    showPersons:!doesShow
+  })
+}
+
   render() {
 
     const style = {
@@ -41,30 +51,43 @@ class App extends Component {
       cursor: 'pointer'
     }
 
+    let persons = null;
+    if(this.state.showPersons){
+      persons = (
+        <div>
+            <Person 
+                name={this.state.persons[0].name} 
+                age={this.state.persons[0].age}
+                click={this.switchNameHandler.bind(this, 'AIRTON 02')}
+                change = {this.nameChangeHandler}
+                >
+                My Hobbies: Games
+            </Person>
+            <Person 
+                name={this.state.persons[1].name} 
+                age={this.state.persons[1].age}>
+                My Hobbies: Games
+            </Person>
+        </div>
+      )
+    }
+
     //Este codigo:
     return (
       <div className="App">
-       <h1>My React App</h1>
+       <h2>My React App</h2>
        <p>Airton Luis Cavalcanti Oliveira</p>
        <button 
             style={style}
-            onClick={() => this.switchNameHandler('AIRTON 01')}>
-            Switch Names
+            onClick={this.togglePersonsHandler}>
+            Toggle Persons
        </button>
-       <br></br><br></br>
-       <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}
-          click={this.switchNameHandler.bind(this, 'AIRTON 02')}
-          change = {this.nameChangeHandler}
-          >
-          My Hobbies: Games
-       </Person>
-       <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}>
-          My Hobbies: Games
-       </Person>
+       <br></br>
+      {this.state.showPersons ?
+      <h3>Persons List:</h3>
+         : null
+      }
+      {persons}
       </div>
     ); 
     //Faz o mesmo que o abaixo (ele gera o codigo abaixo):
