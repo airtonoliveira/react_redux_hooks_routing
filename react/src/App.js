@@ -6,33 +6,50 @@ class App extends Component {
 
   state =  {
     persons: [
-      {name: "Airton Oliveira", age:2019-1991},
-      {name: "Leandro Oliveira", age:2019-1994}
+      {id: '1', name: "Airton Oliveira", age:2019-1991},
+      {id: '2', name: "Leandro Oliveira", age:2019-1994},
+      {id: '3', name: "Sandra Oliveira", age:2019-1994},
+      {id: '4', name: "Renata Alves", age:2019-1994}
       ],
       otherState: "some var",
       showPersons:  false
     
   }
 
-  switchNameHandler = (newName) => {
-      //DO NOT DO THIS: this.state.persons[0].name = 'Airton Luis';
-      this.setState({
-        persons: [
-          {name: newName, age:2019-1991},
-          {name: "Leandro Luis", age:2019-1994}
-        ]
-      })
+  //variavel event eh passada por padrao
+nameChangeHandler = (event, id) => {
+    let personIndex = this.state.persons.findIndex( p => {
+      return p.id===id;
+    });
+
+    //Option 01 - Copiar Object da lista
+    let person = {...this.state.persons[personIndex]};
+    //Option 02 - Copiar Object da lista
+    //let person = {...this.state.persons.find(p => p.id===id)};
+    //Option 04 - Copiar Object da lista
+    //let person = Object.assign({}, this.state.persons[personIndex];
+    
+    //NOT a good option: Is not recommended to copy directly from the state
+    //let person = this.state.persons[personIndex];
+
+    person.name = event.target.value;
+
+    let persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState({ persons: persons });
+}
+
+deletePersonHandler = (personIndex) => {
+    //slice(): When the arguments are omitted 
+    //this method just makes a copy of the array:
+    // let personDeleteList = this.state.persons.slice();
+    //Spread operator for copying a array:
+    let personDeleteList = [...this.state.persons];
+    //deleta o registro do array:
+    personDeleteList.splice(personIndex, 1);
+    this.setState({persons:personDeleteList});
   }
 
-  //variavel event eh passada por padrao
-  nameChangeHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: event.target.value, age:2019-1991},
-        {name: "Leandro Luis", age:2019-1994}
-      ]
-    })
-}
 
 togglePersonsHandler = () => {
   const doesShow = this.state.showPersons;
@@ -55,24 +72,24 @@ togglePersonsHandler = () => {
     if(this.state.showPersons){
       persons = (
         <div>
-            <Person 
-                name={this.state.persons[0].name} 
-                age={this.state.persons[0].age}
-                click={this.switchNameHandler.bind(this, 'AIRTON 02')}
-                change = {this.nameChangeHandler}
-                >
-                My Hobbies: Games
-            </Person>
-            <Person 
-                name={this.state.persons[1].name} 
-                age={this.state.persons[1].age}>
-                My Hobbies: Games
-            </Person>
+             {this.state.persons.map((person, index) => {
+              return (
+                  <Person 
+                      key={person.id}
+                      name={person.name} 
+                      age={person.age}
+                      click={() => this.deletePersonHandler(index)}
+                      change={(event) => this.nameChangeHandler(event, person.id)}
+                      >
+                      My Hobbies: Games
+                  </Person>
+              );
+            })}
+           
         </div>
       )
     }
 
-    //Este codigo:
     return (
       <div className="App">
        <h2>My React App</h2>
@@ -89,10 +106,7 @@ togglePersonsHandler = () => {
       }
       {persons}
       </div>
-    ); 
-    //Faz o mesmo que o abaixo (ele gera o codigo abaixo):
-    //return React.createElement('div', null, React.createElement('h1', {className: 'App'},'Hi, Teste!!'));
-  }
+    );}
 }
 
 export default App;
