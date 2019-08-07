@@ -10,4 +10,4 @@ create-react-app react_hooks_router_redux --scripts-version 1.1.5
 - Update react scripts-version: 
 npm i -s --save-exact react-scripts@desired_version.
 - Installing radium
-npm install --save radium
+npm install --save radium 22
