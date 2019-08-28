@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
 import Person from './Person/Person';
+//import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
@@ -67,8 +68,9 @@ togglePersonsHandler = () => {
         <div>
              {this.state.persons.map((person, index) => {
               return (
+                //<ErrorBoundary key={person.id}> 
                   <Person 
-                      key={person.id}
+                      key={person.id} //Id precisa sair deste elemento pois o elemento pai que se replicara agora eh o ErrorBoundary
                       name={person.name} 
                       age={person.age}
                       click={() => this.deletePersonHandler(index)}
@@ -76,6 +78,7 @@ togglePersonsHandler = () => {
                       >
                       My Hobbies: Games
                   </Person>
+                //</ErrorBoundary>  
               );
             })}
            
@@ -103,11 +106,12 @@ togglePersonsHandler = () => {
               Toggle Persons
         </button>
         <br></br>
-        {this.state.showPersons ?
-        <h3>Persons List:</h3>
+        {
+          this.state.showPersons ?
+            <h3>Persons List:</h3>
           : null
-        }
-        {persons}
+        } 
+        {persons}       
         </div>
     );}
 }
